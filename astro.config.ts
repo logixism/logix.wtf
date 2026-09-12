@@ -1,4 +1,4 @@
-import vercel from "@astrojs/vercel";
+import node from "@astrojs/node";
 import { defineConfig } from "astro/config";
 import { createHash } from "node:crypto";
 import { INITIAL_THEME_SCRIPT } from "./src/shared/initial-theme";
@@ -9,7 +9,9 @@ const initialThemeScriptHash = `sha256-${createHash("sha256")
 
 export default defineConfig({
   output: "server",
-  adapter: vercel(),
+  adapter: node({
+    mode: "standalone",
+  }),
   build: {
     // The site stylesheet is small and contains the complete initial layout.
     // Keeping it in the HTML prevents a separate CSS request from racing the
@@ -18,9 +20,8 @@ export default defineConfig({
   },
   vite: {
     ssr: {
-      // v0.4.0 contains an extensionless internal ESM import that Node cannot
-      // resolve when Vercel loads the package externally. Bundling it lets
-      // Vite resolve that import during the build instead.
+      // Bundle this package so Vite resolves its internal ESM import during
+      // the build instead of leaving it external for Node to resolve.
       noExternal: ["@material/material-color-utilities"],
     },
   },
