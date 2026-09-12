@@ -27,10 +27,11 @@ let cachedEnv: ServerEnv | undefined;
 
 export function getServerEnv(): ServerEnv {
   cachedEnv ??= parseServerEnv({
-    TWITCH_CLIENT_ID: import.meta.env.TWITCH_CLIENT_ID,
-    TWITCH_CLIENT_SECRET: import.meta.env.TWITCH_CLIENT_SECRET,
-    LASTFM_API_KEY: import.meta.env.LASTFM_API_KEY,
-    LASTFM_USERNAME: import.meta.env.LASTFM_USERNAME,
+    TWITCH_CLIENT_ID: process.env.TWITCH_CLIENT_ID,
+    TWITCH_CLIENT_SECRET: process.env.TWITCH_CLIENT_SECRET,
+    LASTFM_API_KEY: process.env.LASTFM_API_KEY,
+    LASTFM_USERNAME: process.env.LASTFM_USERNAME,
   });
+
   return cachedEnv;
 }
