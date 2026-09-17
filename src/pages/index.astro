@@ -22,6 +22,17 @@ try {
 const themeBackgrounds = getThemeBackgrounds(themeColor);
 
 const siteUrl = "https://logix.wtf/";
+const avatarUrl = new URL(presentation.avatarUrl);
+const avatarHash =
+  avatarUrl.hostname === "cdn.discordapp.com"
+    ? avatarUrl.pathname.match(/^\/avatars\/[^/]+\/([^/.]+)\.[^/]+$/)?.[1]
+    : undefined;
+const previewImageUrl = new URL(
+  avatarHash === undefined
+    ? "/avatar.webp"
+    : `/avatar.webp?v=${encodeURIComponent(avatarHash)}`,
+  siteUrl,
+).toString();
 const discordComponentEmbed = {
   component: {
     type: 17,
@@ -37,7 +48,7 @@ const discordComponentEmbed = {
         ],
         accessory: {
           type: 11,
-          media: { url: presentation.avatarUrl },
+          media: { url: previewImageUrl },
           description: "logix's profile picture",
         },
       },
@@ -62,7 +73,7 @@ const bootstrapState = JSON.stringify({ presence });
 <PageLayout
   title="logix"
   description="my cool website"
-  image={presentation.avatarUrl}
+  image={previewImageUrl}
   url={siteUrl}
   discordComponentEmbed={discordComponentEmbed}
   backgroundLight={themeBackgrounds.light}
