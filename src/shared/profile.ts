@@ -9,7 +9,7 @@ export const FALLBACK_AVATAR_URL =
 export const PROJECTS: Project[] = [
   {
     icon: "home",
-    href: "https://github.com/logixism/www",
+    href: "https://github.com/logixism/logix.wtf",
     label: "This site",
     description: "Small personal page",
   },
