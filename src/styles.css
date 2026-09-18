@@ -6,6 +6,17 @@
 [hidden] {
   display: none !important;
 }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
 html,
 body {
   min-height: 100%;
@@ -136,8 +147,48 @@ presence-controller {
   padding-top: 0;
   line-height: 3.5rem;
 }
+.intro-heading-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.18em;
+}
+.intro-name-shell {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  min-width: 0;
+  padding: 0.02em 0.22em 0.08em;
+  overflow: hidden;
+  color: var(--md-sys-color-on-primary);
+  line-height: 1.1;
+  white-space: nowrap;
+  vertical-align: baseline;
+  background: var(--md-sys-color-primary);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 0 0 0.025em
+      color-mix(in srgb, var(--md-sys-color-on-primary) 12%, transparent),
+    0 0.08em 0.18em
+      color-mix(in srgb, var(--md-sys-color-shadow, black) 18%, transparent);
+  transform-origin: center 65%;
+  transition: box-shadow 300ms ease;
+  will-change: width, transform;
+}
 .intro-name {
+  display: block;
   letter-spacing: -0.025em;
+  font-variation-settings:
+    "wdth" 108,
+    "ROND" 100;
+  will-change: transform, opacity, filter;
+}
+.intro-heading:hover .intro-name-shell {
+  box-shadow:
+    inset 0 0 0 0.025em
+      color-mix(in srgb, var(--md-sys-color-on-primary) 18%, transparent),
+    0 0.12em 0.24em
+      color-mix(in srgb, var(--md-sys-color-shadow, black) 22%, transparent);
 }
 .intro-blurb {
   max-width: 28ch;
@@ -340,6 +391,9 @@ presence-controller {
 }
 @media (prefers-reduced-motion: reduce) {
   .page-theme {
+    transition: none;
+  }
+  .intro-name-shell {
     transition: none;
   }
 }
