@@ -7,6 +7,7 @@ import PageLayout from "../layouts/PageLayout.astro";
 import { getAverageImageColorServer } from "../server/image-color";
 import { getPresenceService } from "../server/presence";
 import { getActivityPresentation } from "../shared/activity-presentation";
+import { getDiscordComponentEmbed } from "../shared/discord-component-embed";
 import { getThemeBackgrounds } from "../shared/theme";
 
 const presence = await getPresenceService().getPresence();
@@ -33,39 +34,12 @@ const previewImageUrl = new URL(
     : `/avatar.webp?v=${encodeURIComponent(avatarHash)}`,
   siteUrl,
 ).toString();
-const discordComponentEmbed = {
-  component: {
-    type: 17,
-    accent_color: Number.parseInt(themeColor.slice(1), 16),
-    components: [
-      {
-        type: 9,
-        components: [
-          {
-            type: 10,
-            content: "# logix.wtf\nCertified professional keyboard user",
-          },
-        ],
-        accessory: {
-          type: 11,
-          media: { url: previewImageUrl },
-          description: "logix's profile picture",
-        },
-      },
-      {
-        type: 1,
-        components: [
-          {
-            type: 2,
-            style: 5,
-            url: siteUrl,
-            label: "Come look at my site!",
-          },
-        ],
-      },
-    ],
-  },
-};
+const discordComponentEmbed = getDiscordComponentEmbed({
+  presentation,
+  themeColor,
+  previewImageUrl,
+  siteUrl,
+});
 
 const bootstrapState = JSON.stringify({ presence });
 ---
