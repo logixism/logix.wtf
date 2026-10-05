@@ -246,6 +246,7 @@ presence-controller {
   width: 12rem;
   height: 12rem;
   opacity: 0.5;
+  animation: spin 15s linear infinite;
 }
 .avatar-shape m3e-avatar {
   width: 100%;
@@ -255,6 +256,7 @@ presence-controller {
   display: block;
   width: 100%;
   height: auto;
+  animation: spin 15s linear infinite reverse;
 }
 .activity-content {
   position: relative;
@@ -430,5 +432,11 @@ presence-controller {
     width: fit-content;
     height: 12rem;
     opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
