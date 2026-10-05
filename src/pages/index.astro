@@ -5,12 +5,23 @@ import ProjectsCard from "../components/ProjectsCard.astro";
 import SocialsCard from "../components/SocialsCard.astro";
 import PageLayout from "../layouts/PageLayout.astro";
 import { getAverageImageColorServer } from "../server/image-color";
+import { recordSiteView } from "../server/lanyard/views";
 import { getPresenceService } from "../server/presence";
 import { getActivityPresentation } from "../shared/activity-presentation";
 import { getDiscordComponentEmbed } from "../shared/discord-component-embed";
 import { getThemeBackgrounds } from "../shared/theme";
 
-const presence = await getPresenceService().getPresence();
+Astro.response.headers.set("Cache-Control", "no-store");
+
+const [presence, siteViews] = await Promise.all([
+  getPresenceService().getPresence(),
+  Astro.request.method === "GET"
+    ? recordSiteView().catch((error: unknown) => {
+        console.error("Could not record site view", error);
+        return undefined;
+      })
+    : undefined,
+]);
 const presentation = getActivityPresentation(presence);
 let themeColor = "#6750a4";
 
@@ -66,6 +77,14 @@ const bootstrapState = JSON.stringify({ presence });
           <ProjectsCard />
           <SocialsCard />
         </div>
+        {
+          !!siteViews ? (
+            <p class="site-views">
+              {siteViews.toLocaleString("en-US")}
+              {` page ${siteViews === 1n ? " view" : " views"}`}
+            </p>
+          ) : null
+        }
       </main>
     </m3e-theme>
   </presence-controller>

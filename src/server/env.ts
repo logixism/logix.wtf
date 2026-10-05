@@ -5,6 +5,7 @@ const serverEnvSchema = z.object({
   TWITCH_CLIENT_SECRET: z.string().trim().min(1),
   LASTFM_API_KEY: z.string().trim().min(1),
   LASTFM_USERNAME: z.string().trim().min(1).default("logixism"),
+  LANYARD_API_KEY: z.string().trim().min(1),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
@@ -35,6 +36,8 @@ export function getServerEnv(): ServerEnv {
       process.env.LASTFM_API_KEY || import.meta.env.LASTFM_API_KEY,
     LASTFM_USERNAME:
       process.env.LASTFM_USERNAME || import.meta.env.LASTFM_USERNAME,
+    LANYARD_API_KEY:
+      process.env.LANYARD_API_KEY || import.meta.env.LANYARD_API_KEY,
   });
 
   return cachedEnv;
